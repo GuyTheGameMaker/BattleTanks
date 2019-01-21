@@ -21,4 +21,5 @@ public:
 	void GetPlayer();
 	ATank* AITank;
 	void LogPossesion();
+	ATank* CastPlayerTank();
 };
