@@ -31,7 +31,7 @@ void ATankPlayerController::AimAtCrosshairs()
 	FVector HitLocation; //OUT parameter. GetSightRayHitLocation() is going to rewrite this.
 	if  (GetSightRayHitLocation(HitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%s"),*(HitLocation.ToString()))
+		//UE_LOG(LogTemp, Warning, TEXT("%s"),*(HitLocation.ToString()))
 	}
 	
 	//get world location if linetrace through crosshairs
@@ -49,11 +49,72 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	//if it hits the terrain, update HitLocation with the location of the hit.
 	//and return true.
 	//else return false.
-	HitLocation = FVector(1, 1, 1);
-	
+
+
+	int32 ViewportSizeX, ViewportSizeY;
+
+	GetViewportSize
+		(ViewportSizeX,
+		ViewportSizeY);
+
+	auto ScreenLocation = FVector2D(
+		ViewportSizeX * CrosshairsXLocation,
+		ViewportSizeY * CrosshairsYLocation);
+
+
+
+	FVector LookDirection; 
+	if (GetLookDirection(ScreenLocation, LookDirection))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("world direction : %s"), *LookDirection.ToString())
+		}
+
+	if (GetLookVectorHitLocation())
+	{ 
+		TArray <FHitResult> Hits;
+		FString Name = Hit.GetFirstBlockingHit(Hits)->GetActor()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("LINE TRACE IS HITTING: %s"), *Name)
+	}
 	return true;
 }
 
 
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const
+{
+	FVector CameraWorldLocation;  //TO BE DISCARDED LATER
+	return DeprojectScreenPositionToWorld(ScreenLocation.X,
+		ScreenLocation.Y,
+		CameraWorldLocation,
+		LookDirection);
+
+
+
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation() const
+{
+	OUT FHitResult Hit;
+	TArray <FHitResult> Hits;
+
+	FVector LineTraceStart= GetControlledTank()->GetActorLocation();
+	FVector TankRotation = GetControlledTank()->GetActorRotation().Vector();
+	FVector LineTraceEnd = TankRotation * TraceRange;
+
+	GetWorld()->LineTraceSingleByChannel(
+		Hit,
+		LineTraceStart,
+		LineTraceEnd,
+		ECollisionChannel(ECC_Visibility),
+		FCollisionQueryParams(NAME_None,false,this), 
+		FCollisionResponseParams());
+	if (Hit.bBlockingHit)
+	{
+		return true;
+	}
+	return false;
+
+
+
+}
 
 //UE_LOG(LogTemp,Warning,TEXT(""))
