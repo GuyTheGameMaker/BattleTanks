@@ -20,7 +20,7 @@ class BATTLETANKS_API ATankPlayerController : public APlayerController
 	void Tick(float DeltaTime) override;
 	ATank* GetControlledTank() const;
 	void AimAtCrosshairs();
-	FVector HitLocation;
+	//FVector HitLocation;
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 
 private:
@@ -33,6 +33,6 @@ private:
 	FHitResult Hit;
 	float TraceRange = 1000000;
 	bool GetLookDirection(FVector2D ScreenLocation, FVector &LookDirection) const;
-	bool GetLookVectorHitLocation(FVector&LookDirection, FVector &HitLocaition) const;
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocaition) const;
 
 };

@@ -17,9 +17,11 @@ class BATTLETANKS_API ATankAIController : public AAIController
 public:
 	void BeginPlay() override;
 	ATank* GetPossessedAITank();
-	ATank* Player;
+	ATank* PlayerTank;
 	void GetPlayer();
 	ATank* AITank;
 	void LogPossesion();
 	ATank* CastPlayerTank();
+	void Tick(float DeltaTime) override;
+
 };

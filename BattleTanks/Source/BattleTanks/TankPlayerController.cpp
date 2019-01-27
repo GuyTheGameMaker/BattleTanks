@@ -34,6 +34,7 @@ void ATankPlayerController::AimAtCrosshairs()
 		//UE_LOG(LogTemp, Warning, TEXT("%s"),*(HitLocation.ToString()))
 	}
 	
+	GetControlledTank()->AimAt(HitLocation);
 	//get world location if linetrace through crosshairs
 	//if it hits terrain
 	//aim at that location
@@ -66,15 +67,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	FVector LookDirection; 
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("world direction : %s"), *LookDirection.ToString())
+		if (GetLookVectorHitLocation(LookDirection, HitLocation))
+		{	UE_LOG(LogTemp, Warning, TEXT("world Location : %s"), *HitLocation.ToString()) }
+	
 		}
 
-	if (GetLookVectorHitLocation())
-	{ 
-		TArray <FHitResult> Hits;
-		FString Name = Hit.GetFirstBlockingHit(Hits)->GetActor()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("LINE TRACE IS HITTING: %s"), *Name)
-	}
 	return true;
 }
 
@@ -86,31 +83,31 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &
 		ScreenLocation.Y,
 		CameraWorldLocation,
 		LookDirection);
-
-
-
 }
 
-bool ATankPlayerController::GetLookVectorHitLocation() const
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector &HitLocation) const
 {
 	OUT FHitResult Hit;
 	TArray <FHitResult> Hits;
 
-	FVector LineTraceStart= GetControlledTank()->GetActorLocation();
-	FVector TankRotation = GetControlledTank()->GetActorRotation().Vector();
-	FVector LineTraceEnd = TankRotation * TraceRange;
+	FVector LineTraceStart = PlayerCameraManager->GetCameraLocation();
+	FVector LineTraceEnd = LineTraceStart + (LookDirection*TraceRange);
+	
+	//	FVector TankRotation = GetControlledTank()->GetActorRotation().Vector();
+//	FVector LineTraceEnd = TankRotation * TraceRange;
 
-	GetWorld()->LineTraceSingleByChannel(
+	if (GetWorld()->LineTraceSingleByChannel(
 		Hit,
 		LineTraceStart,
 		LineTraceEnd,
 		ECollisionChannel(ECC_Visibility),
-		FCollisionQueryParams(NAME_None,false,this), 
-		FCollisionResponseParams());
-	if (Hit.bBlockingHit)
+		FCollisionQueryParams(NAME_None,false,this) 
+		))
 	{
+		HitLocation = Hit.Location; 
 		return true;
 	}
+	HitLocation = FVector(0);
 	return false;
 
 

@@ -6,7 +6,7 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 	LogPossesion();
-	ATank* PlayerTank = CastPlayerTank();
+	PlayerTank = CastPlayerTank();
 	if (!PlayerTank)
 	{	
 	//	FString Name = AITank->GetName();
@@ -58,3 +58,11 @@ ATank * ATankAIController::CastPlayerTank()
 {
 	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	GetPossessedAITank()->AimAt(CastPlayerTank()->GetActorLocation());
+
+}
+
