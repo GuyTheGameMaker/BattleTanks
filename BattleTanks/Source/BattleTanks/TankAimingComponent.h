@@ -15,7 +15,7 @@ class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 public:	
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-
+	void AimAt(FVector HitLocation);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -23,6 +23,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+private:
 		
 };

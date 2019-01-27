@@ -42,18 +42,7 @@ void ATankPlayerController::AimAtCrosshairs()
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
-	//1.make a vector from turret to crosshair:
-	//Get Viewpoint rotation and location.
-	//an additional vector from crosshair to whatever its pointing at:
-	//the rotation used is the viewport rotation.
-	//linetrace using both vectors to and check whether its hitting terrain.
-	//if it hits the terrain, update HitLocation with the location of the hit.
-	//and return true.
-	//else return false.
-
-
 	int32 ViewportSizeX, ViewportSizeY;
-
 	GetViewportSize
 		(ViewportSizeX,
 		ViewportSizeY);
@@ -62,16 +51,12 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 		ViewportSizeX * CrosshairsXLocation,
 		ViewportSizeY * CrosshairsYLocation);
 
-
-
 	FVector LookDirection; 
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
 		if (GetLookVectorHitLocation(LookDirection, HitLocation))
-		{	UE_LOG(LogTemp, Warning, TEXT("world Location : %s"), *HitLocation.ToString()) }
-	
+		{	UE_LOG(LogTemp, Warning, TEXT("world Location : %s"), *HitLocation.ToString()) }	
 		}
-
 	return true;
 }
 
