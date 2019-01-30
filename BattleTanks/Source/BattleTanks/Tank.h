@@ -13,11 +13,14 @@ class BATTLETANKS_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-ATank();
+	ATank();
 	void AimAt(FVector HitLocation);
 	
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
+	UPROPERTY(EditAnywhere)
+		float LaunchSpeed = 100000;
 
 protected:
 	

@@ -2,7 +2,6 @@
 
 #include "TankPlayerController.h"
 
-
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -55,7 +54,8 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 	if (GetLookDirection(ScreenLocation, LookDirection))
 	{
 		if (GetLookVectorHitLocation(LookDirection, HitLocation))
-		{	UE_LOG(LogTemp, Warning, TEXT("world Location : %s"), *HitLocation.ToString()) }	
+		{	//UE_LOG(LogTemp, Warning, TEXT("world Location : %s"), *HitLocation.ToString()) 
+		}	
 		}
 	return true;
 }
