@@ -19,6 +19,8 @@ public:
 	UTankAimingComponent();
 	void ComponentAimAt(FVector HitLocation, float LaunchSpeed);
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+	void SetTurretReference(UStaticMeshComponent* TurretToSet);
+	void MoveBarrel(FVector AimDirection);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -28,4 +30,6 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 private:
 	UStaticMeshComponent* Barrel;
+	UStaticMeshComponent* Turret;
+	FVector AimDirection = FVector(0);
 };

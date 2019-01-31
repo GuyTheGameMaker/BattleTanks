@@ -34,30 +34,36 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel)
-	{
-		return;
-	}
+	{return;}
+	if (!Turret)
+	{return;}
 
+	TArray<AActor*> ignore;
 	FVector ProjectileStart = Barrel->GetComponentLocation();
-
 	FVector TossVelocity;
-
-
-	
-	if (UGameplayStatics::SuggestProjectileVelocity(
+	bool bHaveAimSolution= UGameplayStatics::SuggestProjectileVelocity(
 		this, TossVelocity, ProjectileStart,
 		HitLocation,
 		LaunchSpeed,
 		false,
 		0,
 		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace))
+		ESuggestProjVelocityTraceOption::DoNotTrace,FCollisionResponseParams::DefaultResponseParam,ignore,false);
 	
+	if (bHaveAimSolution)
 	{
-		auto something=TossVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("Hitting  %s"), *something.ToString()); }
-	
+		AimDirection=TossVelocity.GetSafeNormal();
+		FRotator AimDirection2 = AimDirection.Rotation();
+		UE_LOG(LogTemp, Warning, TEXT("Hitting  %s"), *AimDirection2.ToString());
+	MoveBarrel(AimDirection);
+	}
+	else
+	{
 
+	}
+	
+		//FRotator AimDirection2 = AimDirection.Rotation();
+		//UE_LOG(LogTemp, Warning, TEXT("NOT Hitting  %s"), *AimDirection2.ToString());
 
 }
 
@@ -65,4 +71,27 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet
 {
 	Barrel = BarrelToSet;
 
+}
+
+void UTankAimingComponent::SetTurretReference(UStaticMeshComponent * TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
+void UTankAimingComponent::MoveBarrel(FVector AimDirection)
+{
+	//convert the vector into a rotator
+	//set turrets yaw rotation to aimdirection yaw
+	//set barrel pitch rotation to aimdirection pitch
+	FRotator AimDirection2 = AimDirection.Rotation();
+	Turret->SetWorldRotation(FRotator(0, AimDirection2.Yaw,0 ));
+	FRotator wipi = Turret->GetComponentRotation();
+	Barrel->SetWorldRotation(FRotator(AimDirection2.Pitch,wipi.Yaw,wipi.Roll));
+
+
+	//ben take
+	//auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	//auto AimAsRotator = AimDirection.Rotation();
+	//auto DeltaRotator = AimAsRotator - BarrelRotator;
+	//UE_LOG(LogTemp, Warning, TEXT("AimRotator:  %s"), *DeltaRotator.ToString());
 }
