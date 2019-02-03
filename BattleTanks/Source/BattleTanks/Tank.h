@@ -7,6 +7,9 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+
+
+class UTankBarrel;
 UCLASS()
 class BATTLETANKS_API ATank : public APawn
 {
@@ -17,7 +20,7 @@ public:
 	void AimAt(FVector HitLocation);
 	
 	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+		void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetTurretReference(UStaticMeshComponent* TurretToSet);
@@ -32,7 +35,7 @@ UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:
 	// Sets default values for this pawn's properties
-	UStaticMeshComponent* Barrel;
+	UTankBarrel* Barrel;
 	UStaticMeshComponent* Turret;
 
 	// Called when the game starts or when spawned

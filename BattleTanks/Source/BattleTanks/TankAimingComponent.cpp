@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include"TankBarrel.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -54,20 +55,15 @@ void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed
 	{
 		AimDirection=TossVelocity.GetSafeNormal();
 		FRotator AimDirection2 = AimDirection.Rotation();
-		UE_LOG(LogTemp, Warning, TEXT("Hitting  %s"), *AimDirection2.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("Hitting  %s"), *AimDirection2.ToString());
 	MoveBarrel(AimDirection);
 	}
-	else
-	{
-
-	}
-	
 		//FRotator AimDirection2 = AimDirection.Rotation();
 		//UE_LOG(LogTemp, Warning, TEXT("NOT Hitting  %s"), *AimDirection2.ToString());
 
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	Barrel = BarrelToSet;
 
@@ -83,15 +79,15 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	//convert the vector into a rotator
 	//set turrets yaw rotation to aimdirection yaw
 	//set barrel pitch rotation to aimdirection pitch
-	FRotator AimDirection2 = AimDirection.Rotation();
-	Turret->SetWorldRotation(FRotator(0, AimDirection2.Yaw,0 ));
-	FRotator wipi = Turret->GetComponentRotation();
-	Barrel->SetWorldRotation(FRotator(AimDirection2.Pitch,wipi.Yaw,wipi.Roll));
+	//FRotator AimDirection2 = AimDirection.Rotation();
+	//Turret->SetWorldRotation(FRotator(0, AimDirection2.Yaw,0 ));
+	//FRotator wipi = Turret->GetComponentRotation();
+	//Barrel->SetWorldRotation(FRotator(AimDirection2.Pitch,wipi.Yaw,wipi.Roll));
 
 
 	//ben take
-	//auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	//auto AimAsRotator = AimDirection.Rotation();
-	//auto DeltaRotator = AimAsRotator - BarrelRotator;
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	//UE_LOG(LogTemp, Warning, TEXT("AimRotator:  %s"), *DeltaRotator.ToString());
 }
