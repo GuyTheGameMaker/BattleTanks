@@ -3,26 +3,23 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "TankTurret.generated.h"
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class BATTLETANKS_API UTankTurret : public UActorComponent
+/**
+ * 
+ */
+UCLASS(meta=(BlueprintSpawnableComponent))
+class BATTLETANKS_API UTankTurret : public UStaticMeshComponent
 {
 	GENERATED_BODY()
+	
+public:
+	void RotateTurret(float RelativeRot);
 
-public:	
-	// Sets default values for this component's properties
-	UTankTurret();
+private:
+	UPROPERTY(EditAnywhere)
+		float MaxRotationInSeconds = 20;
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
 };

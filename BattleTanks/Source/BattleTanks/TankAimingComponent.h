@@ -9,6 +9,7 @@
 #include "TankAimingComponent.generated.h"
 
 class UTankBarrel;
+class UTankTurret;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANKS_API UTankAimingComponent : public UActorComponent
 {
@@ -19,7 +20,7 @@ public:
 	UTankAimingComponent();
 	void ComponentAimAt(FVector HitLocation, float LaunchSpeed);
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
-	void SetTurretReference(UStaticMeshComponent* TurretToSet);
+	void SetTurretReference(UTankTurret* TurretToSet);
 	void MoveBarrel(FVector AimDirection);
 protected:
 	// Called when the game starts
@@ -30,6 +31,6 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 private:
 	UTankBarrel* Barrel;
-	UStaticMeshComponent* Turret;
+	UTankTurret* Turret;
 	FVector AimDirection = FVector(0);
 };

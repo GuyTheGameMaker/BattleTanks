@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAimingComponent.h"
+#include "TankTurret.h"
 #include"TankBarrel.h"
 
 // Sets default values for this component's properties
@@ -75,7 +76,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 
 }
 
-void UTankAimingComponent::SetTurretReference(UStaticMeshComponent * TurretToSet)
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
 {
 	Turret = TurretToSet;
 }
@@ -91,12 +92,21 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	//Barrel->SetWorldRotation(FRotator(AimDirection2.Pitch,wipi.Yaw,wipi.Roll));
 
 
-	//ben take
-	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	//AimAsRotator IS USED BY BOTH
 	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - BarrelRotator;
+	
+	//ELEVATING THE BRREL
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto BarrelDeltaRotator = AimAsRotator - BarrelRotator;
+	Barrel->Elevate(BarrelDeltaRotator.Pitch);
 
-	Barrel->Elevate(DeltaRotator.Pitch);
+
+	//ROTATING THE TURRET
+	auto TurretRotator = Turret->GetForwardVector().Rotation();
+	auto TurretDeltaRotator = AimAsRotator - TurretRotator;
+
+	Turret->RotateTurret(TurretDeltaRotator.Yaw);
+
 
 //	UE_LOG(LogTemp, Warning, TEXT("AimRotator:  %s"), *DeltaRotator.ToString());
 }

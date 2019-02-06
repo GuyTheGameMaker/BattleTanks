@@ -2,32 +2,10 @@
 
 #include "TankTurret.h"
 
-// Sets default values for this component's properties
-UTankTurret::UTankTurret()
+void UTankTurret::RotateTurret(float RelativeRot)
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+	float Rotation = RelativeRot * MaxRotationInSeconds*GetWorld()->DeltaTimeSeconds;
+	float RawRotation = Rotation + RelativeRotation.Yaw;
+	SetRelativeRotation(FRotator(0, RawRotation, 0));
+	UE_LOG(LogTemp, Warning, TEXT("Rotating by %f"), RawRotation)
 }
-
-
-// Called when the game starts
-void UTankTurret::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UTankTurret::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
