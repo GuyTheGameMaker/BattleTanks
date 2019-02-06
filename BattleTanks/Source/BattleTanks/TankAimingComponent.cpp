@@ -40,7 +40,9 @@ void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed
 	{return;}
 
 	TArray<AActor*> ignore;
-	FVector ProjectileStart = Barrel->GetComponentLocation();
+
+	ignore.Emplace (GetOwner());
+	FVector ProjectileStart = Barrel->GetSocketLocation(FName("MortarSpawn"));
 	FVector TossVelocity;
 	bool bHaveAimSolution= UGameplayStatics::SuggestProjectileVelocity(
 		this, TossVelocity, ProjectileStart,
@@ -49,8 +51,9 @@ void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed
 		false,
 		0,
 		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace,FCollisionResponseParams::DefaultResponseParam,ignore,false);
-	
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam,
+		ignore,false);
 	if (bHaveAimSolution)
 	{
 		AimDirection=TossVelocity.GetSafeNormal();
@@ -60,7 +63,10 @@ void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed
 	}
 		//FRotator AimDirection2 = AimDirection.Rotation();
 		//UE_LOG(LogTemp, Warning, TEXT("NOT Hitting  %s"), *AimDirection2.ToString());
-
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Failed to find hitlocation"))
+	}
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
@@ -89,5 +95,8 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-	//UE_LOG(LogTemp, Warning, TEXT("AimRotator:  %s"), *DeltaRotator.ToString());
+
+	Barrel->Elevate(DeltaRotator.Pitch);
+
+//	UE_LOG(LogTemp, Warning, TEXT("AimRotator:  %s"), *DeltaRotator.ToString());
 }
