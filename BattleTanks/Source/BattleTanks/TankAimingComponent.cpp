@@ -14,7 +14,6 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
@@ -35,10 +34,8 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel)
-	{return;}
-	if (!Turret)
-	{return;}
+	if (!Barrel)	{return;}
+	if (!Turret)	{return;}
 
 	TArray<AActor*> ignore;
 
@@ -66,32 +63,19 @@ void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed
 		//UE_LOG(LogTemp, Warning, TEXT("NOT Hitting  %s"), *AimDirection2.ToString());
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Failed to find hitlocation"))
+		float time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f Failed to find hitlocation"),time)
 	}
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
-{
-	Barrel = BarrelToSet;
-
-}
+{	Barrel = BarrelToSet;  }
 
 void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
-{
-	Turret = TurretToSet;
-}
+{	Turret = TurretToSet; }
 
 void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 {
-	//convert the vector into a rotator
-	//set turrets yaw rotation to aimdirection yaw
-	//set barrel pitch rotation to aimdirection pitch
-	//FRotator AimDirection2 = AimDirection.Rotation();
-	//Turret->SetWorldRotation(FRotator(0, AimDirection2.Yaw,0 ));
-	//FRotator wipi = Turret->GetComponentRotation();
-	//Barrel->SetWorldRotation(FRotator(AimDirection2.Pitch,wipi.Yaw,wipi.Roll));
-
-
 	//AimAsRotator IS USED BY BOTH
 	auto AimAsRotator = AimDirection.Rotation();
 	
