@@ -45,12 +45,13 @@ void ATank::Fire()
 	//UE_LOG(LogTemp,Warning,TEXT("%f fire pressed"),Time)
 
 	if (!Barrel) { return; }
-	GetWorld()->SpawnActor<AProjectile>(
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(
 		BlueprintProjectile,
 		Barrel->GetSocketLocation(FName("Projectile")),
-		Barrel->GetSocketRotation(FName("Projectile")),
-		FActorSpawnParameters());
-
+		Barrel->GetSocketRotation(FName("Projectile"))
+		//,FActorSpawnParameters()
+		);
+	Projectile->FireProjectile(LaunchSpeed);
 }
 
 void ATank::AimAt(FVector HitLocation)
