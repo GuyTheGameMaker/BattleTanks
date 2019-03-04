@@ -39,20 +39,18 @@ public:
 
 	UTankBarrel* Barrel = nullptr;
 
+	UPROPERTY (EditAnywhere)
+		float ReloadTime = 3;
+
+	float LastFireTime = 0;
+
 protected:
-	
 UTankAimingComponent* TankAimingComponent = nullptr;
 
 
 private:
-	// Sets default values for this pawn's properties
-	//UTankBarrel* Barrel;
-	//UTankTurret* Turret;
-
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

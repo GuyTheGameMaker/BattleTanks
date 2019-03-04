@@ -6,64 +6,28 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-	LogPossesion();
-	PlayerTank = CastPlayerTank();
-	if (!PlayerTank)
-	{	
-	//	FString Name = AITank->GetName();
-	//	UE_LOG(LogTemp, Warning, TEXT("AI TANK %s COULD NOT FIND A PLAYER TANK"), *Name)
-	}
-	else
-	{
-		//FString PlayerName = GetWorld()->GetFirstPlayerController()->GetName();
-		//FString Name = AITank->GetName();
-		//UE_LOG(LogTemp, Warning, TEXT("AI TANK %s FOUND PLAYER TANK: %s"), *Name, *PlayerName)
-}
+
+
+
+
+
+
 }
 
-ATank* ATankAIController::GetPossessedAITank()
-{
-	return Cast<ATank>(GetPawn());
-}
-
-void ATankAIController::GetPlayer()
-{
-	FString PlayerName=GetWorld()->GetFirstPlayerController()->GetName();
-
-	{
-		AITank = GetPossessedAITank();
-		if (AITank)
-		{
-	//	FString Name = AITank->GetName();
-	//	UE_LOG(LogTemp, Warning, TEXT("AI TANK %s FOUND PLAYER TANK: %s"), *Name, *PlayerName)
-		}
- }
-}
-
-void ATankAIController::LogPossesion()
-{
-	AITank = GetPossessedAITank();
-	if (!AITank)
-	{
-	//	FString Name = GetOwner()->GetName();
-		//UE_LOG(LogTemp, Error, TEXT("NO TANK IN POSSESSION UNDER %s"), *Name)
-	}
-	else
-	{
-		FString Name = AITank->GetName();
-	//	UE_LOG(LogTemp, Warning, TEXT("POSSESSING AI TANK: %s"), *Name)
-	}
-}
-
-ATank * ATankAIController::CastPlayerTank()
-{
-	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-}
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	GetPossessedAITank()->AimAt(CastPlayerTank()->GetActorLocation());
+	AITank = Cast<ATank>(GetPawn());
+	PlayerTank= Cast<ATank> (GetWorld()->GetFirstPlayerController()->GetPawn());
+	if (PlayerTank&&AITank)
+	{
+		AITank->AimAt(PlayerTank->GetActorLocation());
+
+		AITank->Fire();
+	}
+
+
 
 }
 
