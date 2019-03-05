@@ -6,12 +6,6 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-
-
-
-
-
 }
 
 

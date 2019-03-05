@@ -26,10 +26,10 @@ class BATTLETANKS_API ATankPlayerController : public APlayerController
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrosshairsXLocation = 0.5;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float CrosshairsYLocation = 0.33333;
 
 	FHitResult Hit;

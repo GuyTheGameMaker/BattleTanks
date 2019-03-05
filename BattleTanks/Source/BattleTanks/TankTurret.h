@@ -18,7 +18,7 @@ public:
 	void RotateTurret(float RelativeRot);
 
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 		float MaxRotationInSeconds = 20;
 
 

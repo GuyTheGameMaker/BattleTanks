@@ -28,11 +28,9 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
-void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float TossSpeed)
 {
 	if (!Barrel)	{return;}
 	if (!Turret)	{return;}
@@ -45,7 +43,7 @@ void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed
 	bool bHaveAimSolution= UGameplayStatics::SuggestProjectileVelocity(
 		this, TossVelocity, ProjectileStart,
 		HitLocation,
-		LaunchSpeed,
+		TossSpeed,
 		false,
 		0,
 		0,
@@ -56,15 +54,12 @@ void UTankAimingComponent::ComponentAimAt(FVector HitLocation, float LaunchSpeed
 	{
 		AimDirection=TossVelocity.GetSafeNormal();
 		FRotator AimDirection2 = AimDirection.Rotation();
-		//UE_LOG(LogTemp, Warning, TEXT("Hitting  %s"), *AimDirection2.ToString());
 	MoveBarrel(AimDirection);
 	}
-		//FRotator AimDirection2 = AimDirection.Rotation();
-		//UE_LOG(LogTemp, Warning, TEXT("NOT Hitting  %s"), *AimDirection2.ToString());
 	else
 	{
 		float time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f Failed to find hitlocation"),time)
+		//UE_LOG(LogTemp, Warning, TEXT("%f Failed to find hitlocation"),time)
 	}
 }
 

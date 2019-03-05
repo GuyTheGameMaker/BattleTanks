@@ -52,11 +52,11 @@ void ATank::Fire()
 			//,FActorSpawnParameters()
 			);
 		LastFireTime = FPlatformTime::Seconds();
-		Projectile->FireProjectile(LaunchSpeed);
+		Projectile->FireProjectile(ProjectileVelocity);
 	}
 }
 
 void ATank::AimAt(FVector HitLocation)
 {
-	TankAimingComponent->ComponentAimAt(HitLocation, LaunchSpeed);
+	TankAimingComponent->ComponentAimAt(HitLocation,TossSpeed );
 }
