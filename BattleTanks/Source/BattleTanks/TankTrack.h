@@ -13,10 +13,10 @@ UCLASS(meta=(BlueprintSpawnableComponent))
 class BATTLETANKS_API UTankTrack : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-
+public:
 		UFUNCTION(BlueprintCallable, Category = Input)
 		void SetThrottle(float Throttle);
 
 	UPROPERTY(EditDefaultsOnly)
-	float MaxDrivingForce = 600000; //Max Driving force in newtons, assuming tank weighs 60 tons.
+	float MaxDrivingForce = 3000000; //Max Driving force in newtons, assuming tank weighs 60 tons.
 };
