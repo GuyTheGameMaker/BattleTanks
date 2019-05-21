@@ -4,12 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/NavMovementComponent.h"
+#include "TankTrack.h"
 #include "TankMovementComponent.generated.h"
 
 class UTankTrack;
 /**
  * 
  */
+<<<<<<< Updated upstream
+=======
+//class UTankTrack;
+>>>>>>> Stashed changes
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANKS_API UTankMovementComponent : public UNavMovementComponent
 {
@@ -19,6 +24,7 @@ public:
 		UFUNCTION(BlueprintCallable)
 		void IntentMoveForward(float Throw);
 
+<<<<<<< Updated upstream
 		UFUNCTION(BlueprintCallable)
 			void InitialiseTracks(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
@@ -27,4 +33,20 @@ public:
 
 
 	
+=======
+	UFUNCTION(BlueprintCallable)
+	void IntentToMove(float Throw);
+
+	UFUNCTION(BlueprintCallable)
+		void IntendMoveRight(float Throw);
+
+	UTankTrack* RightTrack = nullptr;
+	UTankTrack* LeftTrack = nullptr;
+
+	//protected:
+	UPROPERTY(BlueprintReadOnly)
+		UTankMovementComponent* TankMovementComponent = nullptr;
+
+
+>>>>>>> Stashed changes
 };
